@@ -1,94 +1,148 @@
 # AI Investment Research Copilot
 
-> An AI-powered investment research assistant that automates equity research using **Retrieval-Augmented Generation (RAG)**, **LangGraph**, and **Large Language Models (LLMs)**.
+A multi-agent AI investment research assistant that combines live market data, financial statements, company filings, news retrieval, and Retrieval-Augmented Generation (RAG) to produce structured investment research reports.
 
-## Overview
-
-AI Investment Research Copilot is a multi-stage agentic research system designed to assist investors and analysts in understanding public companies.
-
-The current implementation focuses on retrieving information from annual reports, synthesizing relevant insights, and generating structured investment-style reports with citations.
-
-This project is being developed in multiple phases, with future support planned for financial data, news analysis, multi-agent workflows, evaluation pipelines, and a web-based user interface.
+This project is being built as an end-to-end Agentic AI system using LangGraph, FastAPI, and modern LLM tooling.
 
 ---
 
-## Current Features (Phase 1)
+## Project Vision
 
-* PDF ingestion pipeline for annual reports
-* Automatic document chunking and embedding
-* ChromaDB vector database for semantic search
-* Retrieval-Augmented Generation (RAG)
-* LangGraph-based multi-stage workflow
-* Structured investment research reports
-* Source citations with page references
-* FastAPI REST API
-* Interactive Swagger API documentation
+Instead of simply answering questions with an LLM, this system coordinates multiple specialized AI agents that collaborate to perform investment research.
 
----
+The long-term goal is to build an assistant capable of answering questions such as:
 
-## Architecture
-
-```
-                      User Query
-                           │
-                           ▼
-                    FastAPI REST API
-                           │
-                           ▼
-                  LangGraph Workflow
-                           │
-            ┌──────────────┴──────────────┐
-            ▼                             ▼
-      Planner Node                 Query Analysis
-            │
-            ▼
-      RAG Retrieval Engine
-      (ChromaDB Semantic Search)
-            │
-            ▼
-      Relevant Document Chunks
-            │
-            ▼
-      LLM Report Generation
-            │
-            ▼
- Structured Investment Report
-            │
-            ▼
-  Executive Summary • Risks • Findings • Citations
-```
+- Why did Reliance fall today?
+- Compare TCS vs Infosys.
+- Is Apple overvalued?
+- Summarize this week's market.
+- Explain PE Ratio like I'm a beginner.
+- Analyze my investment portfolio.
+- Generate a complete bull vs bear investment thesis for any company.
 
 ---
 
-## Tech Stack
+# Current Features (Phase 2)
+
+- Live stock lookup
+- Automatic ticker resolution
+- Financial statement retrieval
+- Fundamental ratio analysis
+- Live market data
+- News retrieval
+- Annual Report RAG
+- Structured report generation
+- FastAPI backend
+- LangGraph workflow foundation
+
+---
+
+# Technology Stack
 
 ### Backend
 
-* Python
-* FastAPI
-* LangGraph
-* LangChain
-* ChromaDB
+- Python
+- FastAPI
+- LangGraph
 
 ### AI
 
-* OpenRouter
-* Google Gemma 4 (31B Instruct)
+- OpenRouter
+- Google Gemma 4
+- Retrieval-Augmented Generation (RAG)
 
-### Document Processing
+### Data Sources
 
-* PyPDF
-* Vector Embeddings
-* Retrieval-Augmented Generation (RAG)
+- yfinance
+- NewsAPI
+- Company Annual Reports
 
-### Planned Frontend
+### Vector Database
 
-* Next.js
-* React
+- ChromaDB
+
+### Frontend (Planned)
+
+- Next.js
+- Tailwind CSS
+
+### Database (Planned)
+
+- PostgreSQL
 
 ---
 
-## Project Structure
+# Current Architecture
+
+```
+                    User
+                      │
+                      ▼
+                FastAPI Backend
+                      │
+                      ▼
+                 LangGraph Flow
+                      │
+        ┌─────────────┼─────────────┐
+        ▼             ▼             ▼
+ Financial Agent   News Agent   RAG Agent
+        │             │             │
+        └─────────────┼─────────────┘
+                      ▼
+           Research Synthesizer
+                      ▼
+          Structured Research Report
+```
+
+---
+
+# Roadmap
+
+## Phase 1 ✅
+- Annual Report RAG
+- PDF ingestion
+- Vector search
+- Report generation
+
+## Phase 2 ✅
+- Financial Agent
+- News Agent
+- Live market data
+- Ticker resolver
+
+## Phase 3 🚧
+- Multi-agent orchestration
+- Planner Agent
+- Parallel execution
+- Shared state
+
+## Phase 4
+- Research synthesizer
+- Bull/Bear thesis generation
+- Risk analysis
+- Investment scoring
+
+## Phase 5
+- Company comparison
+- Portfolio analysis
+- Market education assistant
+
+## Phase 6
+- Evaluation pipeline
+- LLM-as-a-Judge
+- Automated quality scoring
+
+## Phase 7
+- Next.js frontend
+- Interactive dashboard
+- Report viewer
+
+## Phase 8
+- Production-ready AI Investment Research Copilot
+
+---
+
+# Project Structure
 
 ```
 backend/
@@ -97,173 +151,118 @@ backend/
 │   ├── api/
 │   ├── graph/
 │   ├── services/
-│   ├── config.py
-│   └── main.py
-│
-├── data/
-│   └── reports/
+│   │    ├── financial_agent.py
+│   │    ├── news_agent.py
+│   │    ├── rag_engine.py
+│   │    ├── formatting.py
+│   │    └── schema.py
+│   │
+│   └── ticker_resolver.py
 │
 ├── ingest.py
-├── requirements.txt
-└── .env.example
+├── test_live.py
+├── test_news_agent.py
+└── requirements.txt
 ```
 
 ---
 
-## Getting Started
+# Running the Project
 
-### 1. Clone the repository
+## 1. Clone
 
 ```bash
 git clone https://github.com/aryan0206/ai-investment-research.git
 cd ai-investment-research/backend
 ```
 
-### 2. Create a virtual environment
+## 2. Create Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-### Windows
+Windows
 
 ```bash
 venv\Scripts\activate
 ```
 
-### Linux / macOS
+macOS/Linux
 
 ```bash
 source venv/bin/activate
 ```
 
-### 3. Install dependencies
+---
+
+## 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure environment variables
+---
 
-```bash
-cp .env.example .env
-```
+## 4. Configure Environment
 
-Add your OpenRouter API key inside the `.env` file.
+Create a `.env` file from `.env.example`.
+
+Add your API keys.
 
 ---
 
-## Ingest an Annual Report
-
-Place an annual report PDF inside
-
-```
-backend/data/reports/
-```
-
-Then run
-
-```bash
-python ingest.py
-```
-
-or
+## 5. Ingest Annual Reports
 
 ```bash
 python ingest.py --fresh
 ```
 
-to rebuild the vector database from scratch.
-
 ---
 
-## Run the API
+## 6. Run FastAPI
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-Open
+Swagger UI:
 
 ```
-http://127.0.0.1:8000/docs
-```
-
-to access the interactive Swagger UI.
-
----
-
-## Example Request
-
-```json
-{
-  "company": "Reliance Industries",
-  "query": "Analyze the company's financial health, major risks, and growth strategy."
-}
+http://localhost:8000/docs
 ```
 
 ---
 
-## Example Output
+# Example Queries
 
-The API generates a structured investment research report containing:
-
-* Executive Summary
-* Key Findings
-* Bull Case
-* Bear Case
-* Risk Factors
-* Supporting Evidence
-* Source Citations
+- Compare Apple and Microsoft.
+- Analyze Reliance Industries.
+- What are the biggest risks facing Tesla?
+- Explain PE Ratio.
+- Summarize today's news for Infosys.
+- Generate a bull and bear thesis for NVIDIA.
 
 ---
 
-## Roadmap
+# Learning Goals
 
-### Phase 1 ✅
+This project is an exploration of:
 
-* Annual Report RAG
-* LangGraph workflow
-* FastAPI backend
-* Structured report generation
-* Citation support
-
-### Phase 2 🚧
-
-* Financial fundamentals (yfinance)
-* News retrieval
-* Parallel LangGraph agents
-* Company comparison
-
-### Phase 3
-
-* Evaluation pipeline
-* LLM-as-a-Judge
-* Quality scoring
-* Automated testing
-
-### Phase 4
-
-* Next.js frontend
-* Interactive dashboard
-* Authentication
-* Portfolio management
+- Agentic AI Systems
+- Multi-Agent Workflows
+- LangGraph
+- Retrieval-Augmented Generation
+- Financial AI
+- FastAPI
+- Vector Databases
+- LLM Evaluation
+- Modern AI System Design
 
 ---
 
-## Future Improvements
+## Status
 
-* SEC filing support
-* Earnings call transcript analysis
-* Financial ratio analysis
-* Stock price visualization
-* Investment recommendation dashboard
-* Multi-company comparative reports
+**Current Progress:** Phase 2 of 8
 
----
-
-## Disclaimer
-
-This project is intended for educational and research purposes only. It should not be considered financial or investment advice.
-
----
+Building toward a production-style AI Investment Research Copilot capable of autonomous financial research using multiple collaborating AI agents.
